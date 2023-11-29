@@ -1,0 +1,36 @@
+// Import necessary modules
+const express = require('express');
+const mongoose = require('mongoose');
+
+// Connect to your MongoDB database (assuming you are using mongoose)
+mongoose.connect('mongodb://localhost:27017/blog', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Create a mongoose model for the Post
+const Post = mongoose.model('Post', {
+  title: String,
+  content: String,
+});
+
+// Create an Express application
+const app = express();
+
+// Express route to retrieve a list of posts from the database and return as JSON
+app.get('/posts', async (req, res) => {
+  try {
+    // Fetch all posts from the database
+    const posts = await Post.find();
+
+    // Return the posts as JSON
+    res.json(posts);
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

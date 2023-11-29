@@ -1,0 +1,54 @@
+import React, { useState, useEffect } from 'react';
+
+const BlogPostList = () => {
+  // State to store the list of blog posts
+  const [posts, setPosts] = useState([]);
+  // State to manage loading indicator
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate fetching blog posts from an API
+    const fetchPosts = async () => {
+      try {
+        // Set loading to true while fetching
+        setLoading(true);
+
+        // Replace the URL with your actual API endpoint
+        const response = await fetch('https://api.example.com/posts');
+        const data = await response.json();
+
+        // Update the state with the fetched posts
+        setPosts(data);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      } finally {
+        // Set loading to false after fetching is complete
+        setLoading(false);
+      }
+    };
+
+    // Call the fetchPosts function
+    fetchPosts();
+  }, []); // Empty dependency array ensures useEffect runs only once on component mount
+
+  return (
+    <div>
+      <h2>Blog Posts</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id}>
+              <h3>{post.title}</h3>
+              <p>Author: {post.author}</p>
+              <button onClick={() => viewFullPost(post.id)}>View Full Post</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default BlogPostList;

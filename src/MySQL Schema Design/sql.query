@@ -1,0 +1,15 @@
+-- MySQL query to find all posts created by a specific user, including user details
+SELECT
+    Post.post_id,
+    Post.title,
+    Post.content,
+    Post.created_at AS post_created_at,
+    User.user_id AS user_id,
+    User.username,
+    User.email,
+    User.created_at AS user_created_at
+FROM
+    Post
+JOIN User ON Post.user_id = User.user_id
+WHERE
+    User.user_id = 1; -- Replace with the specific user_id you're querying

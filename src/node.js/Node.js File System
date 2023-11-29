@@ -1,0 +1,16 @@
+const fs = require('fs');
+
+// Read the JSON file containing user data
+const rawData = fs.readFileSync('userData.json');
+const userData = JSON.parse(rawData);
+
+// Manipulate data to include the total number of posts each user has created
+userData.forEach((user) => {
+  user.totalPosts = user.posts.length;
+});
+
+// Write the modified data back to a new JSON file
+const newData = JSON.stringify(userData, null, 2);
+fs.writeFileSync('modifiedUserData.json', newData);
+
+console.log('File operation completed.');
